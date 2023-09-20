@@ -9,7 +9,7 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TaskData } from "./compositions/type";
 import View from "./View";
 import Add from "./Add";
@@ -19,37 +19,9 @@ function App() {
   const [compTask, setCompTask] = useState<TaskData[]>([]);
   const [option, setOption] = useState<string>("create-desc");
 
-  type a = {
-    date: string | Date;
-  };
-
-  // useEffect(() => {
-  //   const serializedInbox = localStorage.getItem("inbox");
-  //   const serializedCompTask = localStorage.getItem("comTask");
-
-  //   if (serializedInbox)
-  //     setCompTask(
-  //       JSON.parse(serializedInbox).map(({ date }: a) => new Date(date))
-  //     );
-  //   if (serializedCompTask)
-  //     setInbox(
-  //       JSON.parse(serializedCompTask).map(({ date }: a) => new Date(date))
-  //     );
-  // }, []);
-
-  const seveTaskToStrageHandler = (value: TaskData[]) => {
-    if (value[0].isCompleted) {
-      const serializedcompTask = JSON.stringify(value);
-      localStorage.setItem("compTask", serializedcompTask);
-    } else {
-      const serializedInbox = JSON.stringify(value);
-      localStorage.setItem("inbox", serializedInbox);
-    }
-  };
   //インボックスにタスクを登録する
   const clickAddInboxHandler = (value: TaskData) => {
     setInbox([...inbox, value]);
-    seveTaskToStrageHandler(inbox);
   };
 
   //タスクをインボックス/完了済みに移動させる
@@ -58,12 +30,10 @@ function App() {
       setCompTask(compTask.filter((v) => v != value));
       const newValue: TaskData = { ...value, isCompleted: false };
       setInbox([...inbox, newValue]);
-      seveTaskToStrageHandler(inbox);
     } else {
       setInbox(inbox.filter((v) => v != value));
       const newValue: TaskData = { ...value, isCompleted: true };
       setCompTask([...compTask, newValue]);
-      seveTaskToStrageHandler(compTask);
     }
   };
 
@@ -72,11 +42,9 @@ function App() {
     if (value.isCompleted) {
       const a = compTask.filter((v) => v != value);
       setCompTask(a);
-      seveTaskToStrageHandler(a);
     } else {
       const a = inbox.filter((v) => v != value);
       setInbox(a);
-      seveTaskToStrageHandler(a);
     }
   };
 
@@ -84,10 +52,8 @@ function App() {
   const clickUpdateTaskHandler = (value: TaskData, newValue: TaskData) => {
     if (value.isCompleted) {
       setCompTask([...compTask.filter((v) => v != value), newValue]);
-      seveTaskToStrageHandler(compTask);
     } else {
       setInbox([...inbox.filter((v) => v != value), newValue]);
-      seveTaskToStrageHandler(inbox);
     }
   };
   return (
