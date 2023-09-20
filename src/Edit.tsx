@@ -15,16 +15,18 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { EditProps, TaskData } from "./compositions/type";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 export default function Edit({ data, onSubmitUpdate }: EditProps) {
   const modal = useDisclosure();
   const [newData, setNewData] = useState<TaskData>(data);
-
+  useEffect(() => {
+    if (data) {
+      setNewData(data);
+    }
+  }, [data]);
   const clickUpdateTaskHandler = () => {
     modal.onClose();
     onSubmitUpdate(data, newData as TaskData);
-    console.log(data);
-    console.log(newData);
   };
   return (
     <>
