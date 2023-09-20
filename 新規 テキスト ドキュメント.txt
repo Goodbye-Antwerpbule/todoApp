@@ -1,0 +1,30 @@
+const item = data.map((value, key) =>
+    value.isEdit ? (
+      <Box key={key}>
+        <Button>完了</Button>
+        <Editable defaultValue={value.todo}>
+          <EditablePreview />
+          <EditableInput />
+        </Editable>
+        {value.date}
+        <Select colorScheme="blue" ref={ref} defaultValue="3">
+          <option value="one">1</option>
+          <option value="two">2</option>
+          <option value="three">3</option>
+          <option value="four">4</option>
+          <option value="five">5</option>
+        </Select>
+      </Box>
+    ) : (
+      <Box key={key}>
+        <Button>編集</Button>
+        {value.todo}
+        {value.date}
+        {value.priority}
+        <Button onClick={() => clickSubmitMoveHandler(value)}>
+          {isCompleted ? "戻す" : "完了"}
+        </Button>
+        <Button onClick={() => clickSubmitDeleteHandler(value)}>削除</Button>
+      </Box>
+    )
+  );
